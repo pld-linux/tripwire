@@ -13,7 +13,7 @@ Patch0:		%{name}-rhlinux.patch
 Patch1:		%{name}-latin1.patch
 Patch2:		%{name}-rewind.patch
 Patch3:		%{name}-shared.patch
-%{?!bcond_off_static:BuildRequires:	glibc-static}
+%{?!_without_static:BuildRequires:	glibc-static}
 BuildRequires:	byacc
 BuildRequires:	flex
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -44,15 +44,15 @@ tar -C .. -xf T1.2.tar
 %patch3 -p1
 
 %build
-%{?!bcond_off_static:%{__make} OPT_FLAGS="%{rpmcflags}" static}
-%{?bcond_off_static:%{__make} OPT_FLAGS="%{rpmcflags}" shared}
+%{?!_without_static:%{__make} OPT_FLAGS="%{rpmcflags}" static}
+%{?_without_static:%{__make} OPT_FLAGS="%{rpmcflags}" shared}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/{man1,man5,man8}}
 install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
 
-%{__make} %{?!bcond_off_static:install_static}%{?bcond_off_static:install_shared} \
+%{__make} %{?!_without_static:install_static}%{?_without_static:install_shared} \
 	MANDIR="$RPM_BUILD_ROOT%{_mandir}" \
 	TOPDIR="$RPM_BUILD_ROOT"
 
