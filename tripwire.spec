@@ -55,7 +55,7 @@ install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
 	TOPDIR="$RPM_BUILD_ROOT"
 
 install lib/tw.config $RPM_BUILD_ROOT/%{_sysconfdir}
-install $RPM_SOURCE_DIR/%{name}.verify $RPM_BUILD_ROOT/%{_cron} 
+install $RPM_SOURCE_DIR/%{name}.verify $RPM_BUILD_ROOT/%{_cron}
 
 gzip -9nf FAQ Changelog INTERNALS README README.FIRST Readme TODO WHATSNEW docs/*
 
