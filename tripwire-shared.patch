@@ -1,0 +1,79 @@
+--- tripwire-1.2/src/Makefile~	Tue Dec 26 00:19:28 2000
++++ tripwire-1.2/src/Makefile	Tue Dec 26 00:22:12 2000
+@@ -56,7 +56,11 @@
+ 
+ ###
+ 
+-all:	tripwire siggen
++shared:	tripwire.shared siggen.shared
++static:	tripwire siggen
++
++tripwire.shared:	$(P) help.c $(OFILES) 
++	$(CC) $(CFLAGS) -o $@ $(OFILES) $(LIBS)
+ 
+ tripwire:	$(P) help.c $(OFILES) 
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
+@@ -88,9 +92,12 @@
+ 
+ # need $(LDFLAGS) because this may interact with the way nullsig.o and
+ # utils.o were compiled
++siggen.shared:	$(OSIGS) siggen.c utils.o nullsig.o
++	$(CC) $(CFLAGS) -o siggen.shared siggen.c $(OSIGS) nullsig.o utils.o $(LIBS)
++
+ siggen:	$(OSIGS) siggen.c utils.o nullsig.o
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o siggen siggen.c $(OSIGS) nullsig.o utils.o $(LIBS)
+-	
++
+ config.lex.c:	config.pre.l
+ 	$(LEX) config.pre.l
+ 	mv lex.yy.c config.lex.c
+@@ -110,6 +110,12 @@
+ .c.o:
+ 	$(CC) $(CFLAGS) -c $<
+ 
++install_shared:	tripwire.shared
++	$(INSTALL) -s -m700 siggen.shared $(DESTDIR)/siggen
++	$(INSTALL) -s -m700 tripwire.shared $(DESTDIR)/tripwire
++
++install_static:	install
++
+ install:	tripwire
+ 	$(INSTALL) -s -m700 siggen tripwire $(DESTDIR)
+ 
+--- tripwire-1.2/Makefile~	Tue Dec 26 00:24:32 2000
++++ tripwire-1.2/Makefile	Tue Dec 26 00:26:11 2000
+@@ -98,12 +98,34 @@
+ 
+ DIST		= tripwire-1.2
+ 
++static:
++	(cd aux; make CC=$(CC) CFLAGS="$(CFLAGS)"  \
++		LDFLAGS="$(LDFLAGS)" CPP="$(CPP)" SHELL=$(SHELL) all)
++	(cd src; make CC=$(CC) CFLAGS="$(CFLAGS)" LIBS="$(LIBS)" \
++		LDFLAGS="$(LDFLAGS)" CPP="$(CPP)" SHELL=$(SHELL) \
++		YACC="$(YACC)" LEX="$(LEX)" static)
++
++shared:
++	(cd aux; make CC=$(CC) CFLAGS="$(CFLAGS)"  \
++		CPP="$(CPP)" SHELL=$(SHELL) all)
++	(cd src; make CC=$(CC) CFLAGS="$(CFLAGS)" LIBS="$(LIBS)" \
++		CPP="$(CPP)" SHELL=$(SHELL) \
++		YACC="$(YACC)" LEX="$(LEX)" shared)
++
+ all:
+ 	(cd aux; make CC=$(CC) CFLAGS="$(CFLAGS)"  \
+ 		LDFLAGS="$(LDFLAGS)" CPP="$(CPP)" SHELL=$(SHELL) all)
+ 	(cd src; make CC=$(CC) CFLAGS="$(CFLAGS)" LIBS="$(LIBS)" \
+ 		LDFLAGS="$(LDFLAGS)" CPP="$(CPP)" SHELL=$(SHELL) \
+ 		YACC="$(YACC)" LEX="$(LEX)" all)
++
++install_static: static
++	(cd src; make INSTALL=$(INSTALL) DESTDIR=$(DESTDIR) install_static)
++	(cd man; make INSTALL=$(INSTALL) MANDIR=$(MANDIR) install)
++
++install_shared: shared
++	(cd src; make INSTALL=$(INSTALL) DESTDIR=$(DESTDIR) install_shared)
++	(cd man; make INSTALL=$(INSTALL) MANDIR=$(MANDIR) install)
+ 
+ install: all
+ 	(cd src; make INSTALL=$(INSTALL) DESTDIR=$(DESTDIR) install)
