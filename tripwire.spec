@@ -15,6 +15,7 @@ Patch3:		%{name}-shared.patch
 %{?!_without_static:BuildRequires:	glibc-static}
 BuildRequires:	byacc
 BuildRequires:	flex
+Requires:	crondaemon
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_cron		%{_sysconfdir}/cron.daily
