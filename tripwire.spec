@@ -5,8 +5,6 @@ Version:	1.2
 Release:	1
 License:	BSD
 Group:		Applications/System
-Group(de):	Applikationen/System
-Group(pl):	Aplikacje/System
 Source0:	ftp://ftp.cert.org/pub/tools/tripwire/%{name}-%{version}.tar.Z
 Source1:	%{name}.verify
 Patch0:		%{name}-rhlinux.patch
