@@ -9,11 +9,10 @@ Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
 Source0:	ftp://ftp.cert.org/pub/tools/tripwire/%{name}-%{version}.tar.Z
 Source1:	%{name}.verify
-Patch0:		%{name}-1.2-rhlinux.patch
-Patch1:		%{name}-1.2-latin1.patch
-Patch2:		%{name}-1.2-rewind.patch
+Patch0:		%{name}-rhlinux.patch
+Patch1:		%{name}-latin1.patch
+Patch2:		%{name}-rewind.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-#BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_cron		%{_sysconfdir}/cron.daily
 
