@@ -1,8 +1,12 @@
+#
+# Conditional build:
+%bcond_without	static	# don't link statically
+#
 Summary:	Verifies file integrity
 Summary(pl):	Program sprawdza poprawno¶æ plikow
 Name:		tripwire
 Version:	1.2
-Release:	2
+Release:	3
 License:	BSD
 Group:		Applications/System
 Source0:	ftp://ftp.cert.org/pub/tools/tripwire/%{name}-%{version}.tar.Z
@@ -12,8 +16,8 @@ Patch0:		%{name}-rhlinux.patch
 Patch1:		%{name}-latin1.patch
 Patch2:		%{name}-rewind.patch
 Patch3:		%{name}-shared.patch
-%{?!_without_static:BuildRequires:	glibc-static}
-BuildRequires:	byacc
+%{?with_static:BuildRequires:	glibc-static}
+BuildRequires:	bison
 BuildRequires:	flex
 Requires:	crondaemon
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -44,17 +48,30 @@ tar -C .. -xf T1.2.tar
 %patch3 -p1
 
 %build
-%{?!_without_static:%{__make} OPT_FLAGS="%{rpmcflags}" static}
-%{?_without_static:%{__make} OPT_FLAGS="%{rpmcflags}" shared}
+%{__make} \
+%if %{with static}
+	static \
+%else
+	shared \
+%endif
+	CC="%{__cc}" \
+	OPT_FLAGS="%{rpmcflags} -DTW_TYPE32=int" \
+	YACC="bison -y"
+# uses "int" as 32-bit integer - it's OK on all our 32-bit/64-bit archs
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/{man1,man5,man8}}
 install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
 
-%{__make} %{?!_without_static:install_static}%{?_without_static:install_shared} \
-	MANDIR="$RPM_BUILD_ROOT%{_mandir}" \
-	TOPDIR="$RPM_BUILD_ROOT"
+%{__make} \
+%if %{with static}
+	install_static \
+%else
+	install_shared \
+%endif
+	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
+	TOPDIR=$RPM_BUILD_ROOT
 
 install lib/tw.config $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_cron}
