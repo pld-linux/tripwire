@@ -12,6 +12,8 @@ Source1:	%{name}.verify
 Patch0:		%{name}-rhlinux.patch
 Patch1:		%{name}-latin1.patch
 Patch2:		%{name}-rewind.patch
+Patch3:		%{name}-shared.patch
+%{?!bcond_off_static:BuildRequires:	glibc-static}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_cron		%{_sysconfdir}/cron.daily
@@ -38,16 +40,21 @@ tar -C .. -xf T1.2.tar
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-
+%patch3 -p1
 
 %build
-%{__make} RPM_OPT_FLAGS="$RPM_OPT_FLAGS -ggdb"
+%{?!bcond_off_static:%{__make} OPT_FLAGS="$RPM_OPT_FLAGS" static}
+%{?bcond_off_static:%{__make} OPT_FLAGS="$RPM_OPT_FLAGS" shared}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/{man1,man5,man8}}
 install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
-%{__make} MANDIR="$RPM_BUILD_ROOT%{_mandir}" TOPDIR="$RPM_BUILD_ROOT" install
+
+%{__make} %{?!bcond_off_static:install_static}%{?bcond_off_static:install_shared} \
+	MANDIR="$RPM_BUILD_ROOT%{_mandir}" \
+	TOPDIR="$RPM_BUILD_ROOT"
+
 install lib/tw.config $RPM_BUILD_ROOT/%{_sysconfdir}
 install $RPM_SOURCE_DIR/%{name}.verify $RPM_BUILD_ROOT/%{_cron} 
 
