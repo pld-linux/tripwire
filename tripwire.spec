@@ -6,6 +6,7 @@ Release:	2
 License:	BSD
 Group:		Applications/System
 Source0:	ftp://ftp.cert.org/pub/tools/tripwire/%{name}-%{version}.tar.Z
+# Source0-md5:	c82e0327e0caa1821e3e564fa1938d88
 Source1:	%{name}.verify
 Patch0:		%{name}-rhlinux.patch
 Patch1:		%{name}-latin1.patch
