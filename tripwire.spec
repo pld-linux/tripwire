@@ -7,7 +7,7 @@
 %bcond_without	static	# don't link statically
 #
 Summary:	Verifies file integrity
-Summary(pl):	Program sprawdza poprawno¶æ plikow
+Summary(pl):	Program sprawdza poprawno¶æ plików
 Name:		tripwire
 Version:	2.3.1
 Release:	0.1
