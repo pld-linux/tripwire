@@ -1,21 +1,23 @@
 #
+# TODO:
+# - use shared STLport, not included one...
+# - some nice way to install :-/
+#
 # Conditional build:
 %bcond_without	static	# don't link statically
 #
 Summary:	Verifies file integrity
 Summary(pl):	Program sprawdza poprawno¶æ plikow
 Name:		tripwire
-Version:	1.2
-Release:	3
-License:	BSD
+Version:	2.3.1
+Release:	0.1
+License:	GPL v2
 Group:		Applications/System
-Source0:	ftp://ftp.cert.org/pub/tools/tripwire/%{name}-%{version}.tar.Z
-# Source0-md5:	c82e0327e0caa1821e3e564fa1938d88
+Source0:	http://dl.sourceforge.net/tripwire/%{name}-%{version}-2.tar.gz
+# Source0-md5:	6a15fe110565cef9ed33c1c7e070355e
 Source1:	%{name}.verify
-Patch0:		%{name}-rhlinux.patch
-Patch1:		%{name}-latin1.patch
-Patch2:		%{name}-rewind.patch
-Patch3:		%{name}-shared.patch
+Patch0:		%{name}-sec.patch
+URL:		http://www.tripwire.org/
 %{?with_static:BuildRequires:	glibc-static}
 BuildRequires:	bison
 BuildRequires:	flex
@@ -40,40 +42,25 @@ podstawie wygenerowanej bazy danych.
 
 
 %prep
-%setup -q -c
-tar -C .. -xf T1.2.tar
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%setup -q -n %{name}-%{version}-2
+%patch0 -p0
 
 %build
-%{__make} \
-%if %{with static}
-	static \
-%else
-	shared \
-%endif
-	CC="%{__cc}" \
-	OPT_FLAGS="%{rpmcflags} -DTW_TYPE32=int" \
-	YACC="bison -y"
-# uses "int" as 32-bit integer - it's OK on all our 32-bit/64-bit archs
+cd src
+%{__make} release \
+	GMAKE=make \
+	CXX="%{__cxx}" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/{man1,man5,man8}}
 install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
 
-%{__make} \
-%if %{with static}
-	install_static \
-%else
-	install_shared \
-%endif
-	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
-	TOPDIR=$RPM_BUILD_ROOT
+cd src
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
-install lib/tw.config $RPM_BUILD_ROOT%{_sysconfdir}
+#install lib/tw.config $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_cron}
 
 %clean
@@ -81,9 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc FAQ Changelog INTERNALS README README.FIRST Readme TODO WHATSNEW docs/[a-s]*
-%attr(700,root,root) %{_sbindir}/*
-%attr(600,root,root) %{_sysconfdir}/tw.config
-%attr(700,root,root) %{_var}/spool/%{name}
+%doc ChangeLog MAINTAINERS README Release_Notes TRADEMARK  WISHLIST
+#%attr(700,root,root) %{_sbindir}/*
+#%attr(600,root,root) %{_sysconfdir}/tw.config
+#%attr(700,root,root) %{_var}/spool/%{name}
 %attr(700,root,root) %{_cron}/%{name}.verify
-%{_mandir}/man*/*
+#%{_mandir}/man*/*
