@@ -41,13 +41,13 @@ tar -C .. -xf T1.2.tar
 
 
 %build
-make RPM_OPT_FLAGS="$RPM_OPT_FLAGS -ggdb"
+%{__make} RPM_OPT_FLAGS="$RPM_OPT_FLAGS -ggdb"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/{man1,man5,man8}}
 install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
-make MANDIR="$RPM_BUILD_ROOT%{_mandir}" TOPDIR="$RPM_BUILD_ROOT" install
+%{__make} MANDIR="$RPM_BUILD_ROOT%{_mandir}" TOPDIR="$RPM_BUILD_ROOT" install
 install lib/tw.config $RPM_BUILD_ROOT/%{_sysconfdir}
 install $RPM_SOURCE_DIR/%{name}.verify $RPM_BUILD_ROOT/%{_cron} 
 
