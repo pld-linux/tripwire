@@ -222,7 +222,7 @@
  #CC	= /usr/ccs/bin/cc	# Pyramid DC/OSx (SVR4)
 -
 -CFLAGS = -O			# common 
-+CFLAGS=$(RPM_OPT_FLAGS)
++CFLAGS=$(OPT_FLAGS)
 +#CFLAGS = -O			# common 
  #CFLAGS = -g 			# common 
  #CFLAGS = -g			# debugging
