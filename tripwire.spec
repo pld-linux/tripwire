@@ -4,32 +4,33 @@ Name:		tripwire
 Version:	1.2
 Release:	1
 License:	BSD
-Group:		Utilities/System
-Group(pl):	Narzedzia/System
-Source0:	ftp://ftp.cert.org/pub/tools/tripwire/tripwire-1.2.tar.Z
-Source1:	tripwire.verify
-Patch0:		tripwire-1.2-rhlinux.patch
-Patch1:		tripwire-1.2-latin1.patch
-Patch2:		tripwire-1.2-rewind.patch
+Group:		Applications/System
+Group(de):	Applikationen/System
+Group(pl):	Aplikacje/System
+Source0:	ftp://ftp.cert.org/pub/tools/tripwire/%{name}-%{version}.tar.Z
+Source1:	%{name}.verify
+Patch0:		%{name}-1.2-rhlinux.patch
+Patch1:		%{name}-1.2-latin1.patch
+Patch2:		%{name}-1.2-rewind.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-#BuildRoot:	/tmp/%{name}-%{version}-root-%(id -u -n)
+#BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_cron		%{_sysconfdir}/cron.daily
 
 %description
 Tripwire is a file integrity checker - a utility that compares a
 designated set of files and directories against information stored in
-a previously generated database.  Added or deleted files are flagged
+a previously generated database. Added or deleted files are flagged
 and reported, as are any files that have changed from their previously
-recorded state in the database.  When run against system files on a
+recorded state in the database. When run against system files on a
 regular basis, any file changes would be spotted when Tripwire is next
 run, giving system administrators information to enact damage control
 measures immediately.
 
 
 %description -l pl
-Tripwire to narzêdzie do sprawdzania poprawno¶ci plików i katalogów
- na podstawie wygenerowanej bazy danych.
+Tripwire to narzêdzie do sprawdzania poprawno¶ci plików i katalogów na
+podstawie wygenerowanej bazy danych.
 
 
 %prep
