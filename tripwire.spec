@@ -2,7 +2,7 @@ Summary:	Verifies file integrity
 Summary(pl):	Program sprawdza poprawno¶æ plikow
 Name:		tripwire
 Version:	1.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Applications/System
 Source0:	ftp://ftp.cert.org/pub/tools/tripwire/%{name}-%{version}.tar.Z
@@ -57,9 +57,6 @@ install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
 install lib/tw.config $RPM_BUILD_ROOT/%{_sysconfdir}
 install $RPM_SOURCE_DIR/%{name}.verify $RPM_BUILD_ROOT/%{_cron}
 
-gzip -9nf FAQ Changelog INTERNALS README README.FIRST Readme TODO WHATSNEW docs/*
-
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -69,5 +66,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(600,root,root) %{_sysconfdir}/tw.config
 %attr(700,root,root) %{_var}/spool/%{name}
 %attr(700,root,root) %{_cron}/%{name}.verify
-%doc *.gz docs/*
+%doc FAQ Changelog INTERNALS README README.FIRST Readme TODO WHATSNEW docs/[a-s]*
 %{_mandir}/man*/*
