@@ -55,17 +55,17 @@ install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
 	MANDIR="$RPM_BUILD_ROOT%{_mandir}" \
 	TOPDIR="$RPM_BUILD_ROOT"
 
-install lib/tw.config $RPM_BUILD_ROOT/%{_sysconfdir}
-install $RPM_SOURCE_DIR/%{name}.verify $RPM_BUILD_ROOT/%{_cron}
+install lib/tw.config $RPM_BUILD_ROOT%{_sysconfdir}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_cron}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc FAQ Changelog INTERNALS README README.FIRST Readme TODO WHATSNEW docs/[a-s]*
 %attr(700,root,root) %{_sbindir}/*
 %attr(600,root,root) %{_sysconfdir}/tw.config
 %attr(700,root,root) %{_var}/spool/%{name}
 %attr(700,root,root) %{_cron}/%{name}.verify
-%doc FAQ Changelog INTERNALS README README.FIRST Readme TODO WHATSNEW docs/[a-s]*
 %{_mandir}/man*/*
