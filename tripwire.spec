@@ -14,6 +14,7 @@ Patch1:		%{name}-latin1.patch
 Patch2:		%{name}-rewind.patch
 Patch3:		%{name}-shared.patch
 %{?!bcond_off_static:BuildRequires:	glibc-static}
+BuildRequires:	flex
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_cron		%{_sysconfdir}/cron.daily
