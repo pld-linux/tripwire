@@ -1,5 +1,5 @@
-Summary:	Verifies file integrity.
-Summary(pl):	Program sprawdza poprawnosc plikow. 
+Summary:	Verifies file integrity
+Summary(pl):	Program sprawdza poprawno¶æ plikow
 Name:		tripwire
 Version:	1.2
 Release:	1
@@ -30,7 +30,6 @@ regular basis, any file changes would be spotted when Tripwire is next
 run, giving system administrators information to enact damage control
 measures immediately.
 
-
 %description -l pl
 Tripwire to narzêdzie do sprawdzania poprawno¶ci plików i katalogów na
 podstawie wygenerowanej bazy danych.
@@ -45,8 +44,8 @@ tar -C .. -xf T1.2.tar
 %patch3 -p1
 
 %build
-%{?!bcond_off_static:%{__make} OPT_FLAGS="$RPM_OPT_FLAGS" static}
-%{?bcond_off_static:%{__make} OPT_FLAGS="$RPM_OPT_FLAGS" shared}
+%{?!bcond_off_static:%{__make} OPT_FLAGS="%{rpmcflags}" static}
+%{?bcond_off_static:%{__make} OPT_FLAGS="%{rpmcflags}" shared}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -60,8 +59,7 @@ install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
 install lib/tw.config $RPM_BUILD_ROOT/%{_sysconfdir}
 install $RPM_SOURCE_DIR/%{name}.verify $RPM_BUILD_ROOT/%{_cron} 
 
-gzip -9nf FAQ Changelog INTERNALS README README.FIRST Readme TODO \
- WHATSNEW docs/* $RPM_BUILD_ROOT%{_mandir}/{man5,man8}/* 
+gzip -9nf FAQ Changelog INTERNALS README README.FIRST Readme TODO WHATSNEW docs/*
 
 
 %clean
