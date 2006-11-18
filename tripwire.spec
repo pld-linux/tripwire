@@ -46,8 +46,7 @@ podstawie wygenerowanej bazy danych.
 %patch0 -p0
 
 %build
-cd src
-%{__make} release \
+%{__make} -C src release \
 	GMAKE=make \
 	CXX="%{__cxx}" \
 
@@ -56,8 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/{man1,man5,man8}}
 install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
 
-cd src
-%{__make} install \
+%{__make} -C src install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 #install lib/tw.config $RPM_BUILD_ROOT%{_sysconfdir}
