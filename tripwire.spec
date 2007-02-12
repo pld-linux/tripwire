@@ -7,7 +7,7 @@
 %bcond_without	static	# don't link statically
 #
 Summary:	Verifies file integrity
-Summary(pl):	Program sprawdza poprawno¶æ plików
+Summary(pl.UTF-8):   Program sprawdza poprawnoÅ›Ä‡ plikÃ³w
 Name:		tripwire
 Version:	2.3.1
 Release:	0.1
@@ -36,8 +36,8 @@ regular basis, any file changes would be spotted when Tripwire is next
 run, giving system administrators information to enact damage control
 measures immediately.
 
-%description -l pl
-Tripwire to narzêdzie do sprawdzania poprawno¶ci plików i katalogów na
+%description -l pl.UTF-8
+Tripwire to narzÄ™dzie do sprawdzania poprawnoÅ›ci plikÃ³w i katalogÃ³w na
 podstawie wygenerowanej bazy danych.
 
 
