@@ -2,7 +2,7 @@
 
 HOST_NAME=`uname -n`
 TWCFG_PATH=/etc/tripwire
-TWDB_PATH=/usr/lib/tripwire
+TWDB_PATH=/usr/spool/tripwire
 TWROOT_PATH=/usr/sbin
 MAILTO="root"           # Email addresses that should recieve reports
 
