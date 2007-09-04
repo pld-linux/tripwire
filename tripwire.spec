@@ -1,23 +1,23 @@
 #
 # TODO:
 # - use shared STLport, not included one...
-# - some nice way to install :-/
-#
+# - post install
+# - cron scripts (contrib)
 # Conditional build:
 %bcond_without	static	# don't link statically
 #
 Summary:	Verifies file integrity
 Summary(pl.UTF-8):	Program sprawdza poprawność plików
 Name:		tripwire
-Version:	2.3.1
+Version:	2.4.1.2
 Release:	0.1
 License:	GPL v2
 Group:		Applications/System
-Source0:	http://dl.sourceforge.net/tripwire/%{name}-%{version}-2.tar.gz
-# Source0-md5:	6a15fe110565cef9ed33c1c7e070355e
+Source0:	http://dl.sourceforge.net/tripwire/%{name}-%{version}-src.tar.bz2
+# Source0-md5:	8a1147c278b528ed593023912c4b649a
 Source1:	%{name}.verify
 Patch0:		%{name}-sec.patch
-URL:		http://www.tripwire.org/
+URL:		http://sourceforge.net/projects/tripwire/
 %{?with_static:BuildRequires:	glibc-static}
 BuildRequires:	bison
 BuildRequires:	flex
@@ -42,23 +42,22 @@ podstawie wygenerowanej bazy danych.
 
 
 %prep
-%setup -q -n %{name}-%{version}-2
-%patch0 -p0
+%setup -q -n %{name}-%{version}-src
 
 %build
-%{__make} -C src release \
-	GMAKE=make \
-	CXX="%{__cxx}" \
+%configure
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/{man1,man5,man8}}
-install -d $RPM_BUILD_ROOT{%{_var}/spool/%{name},%{_cron}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/{man4,man5,man8},%{_sysconfdir}/%{name}}
+install -d $RPM_BUILD_ROOT{%{_var}/{spool/%{name},lib/%{name}},%{_cron}}
 
-%{__make} -C src install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-#install lib/tw.config $RPM_BUILD_ROOT%{_sysconfdir}
+install bin/* $RPM_BUILD_ROOT%{_sbindir}
+install man/man4/*.4 $RPM_BUILD_ROOT%{_mandir}/man4
+install man/man5/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
+install man/man8/*.8 $RPM_BUILD_ROOT%{_mandir}/man8
+install policy/twpol-Linux.txt $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/twpol.txt
 install %{SOURCE1} $RPM_BUILD_ROOT%{_cron}
 
 %clean
@@ -66,9 +65,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog MAINTAINERS README Release_Notes TRADEMARK  WISHLIST
-#%attr(700,root,root) %{_sbindir}/*
-#%attr(600,root,root) %{_sysconfdir}/tw.config
-#%attr(700,root,root) %{_var}/spool/%{name}
+%doc MAINTAINERS ChangeLog TRADEMARK policy/policyguide.txt
+%attr(700,root,root) %{_sbindir}/*
+%attr(600,root,root) %{_sysconfdir}/%{name}/twpol.txt
+%attr(700,root,root) %{_var}/spool/%{name}
+%attr(700,root,root) %{_var}/lib/%{name}
 %attr(700,root,root) %{_cron}/%{name}.verify
-#%{_mandir}/man*/*
+%{_mandir}/man*/*
