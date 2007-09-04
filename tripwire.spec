@@ -16,6 +16,7 @@ Group:		Applications/System
 Source0:	http://dl.sourceforge.net/tripwire/%{name}-%{version}-src.tar.bz2
 # Source0-md5:	8a1147c278b528ed593023912c4b649a
 Source1:	%{name}.verify
+Source2:	%{name}-tw.cfg
 Patch0:		%{name}-sec.patch
 URL:		http://sourceforge.net/projects/tripwire/
 %{?with_static:BuildRequires:	glibc-static}
@@ -59,6 +60,7 @@ install man/man5/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
 install man/man8/*.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install policy/twpol-Linux.txt $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/twpol.txt
 install %{SOURCE1} $RPM_BUILD_ROOT%{_cron}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/tw.cfg
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -69,6 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(700,root,root) %{_sbindir}/*
 %dir %attr(700,root,root) %{_sysconfdir}/%{name}
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/twpol.txt
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/tw.cfg
 %attr(700,root,root) %{_var}/spool/%{name}
 %attr(700,root,root) %{_var}/lib/%{name}
 %attr(700,root,root) %{_cron}/%{name}.verify
