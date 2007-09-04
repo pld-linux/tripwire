@@ -67,7 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc MAINTAINERS ChangeLog TRADEMARK policy/policyguide.txt
 %attr(700,root,root) %{_sbindir}/*
-%attr(600,root,root) %{_sysconfdir}/%{name}/twpol.txt
+%dir %attr(700,root,root) %{_sysconfdir}/%{name}
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/twpol.txt
 %attr(700,root,root) %{_var}/spool/%{name}
 %attr(700,root,root) %{_var}/lib/%{name}
 %attr(700,root,root) %{_cron}/%{name}.verify
