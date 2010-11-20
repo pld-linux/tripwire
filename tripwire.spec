@@ -1,27 +1,27 @@
-#
 # TODO:
 # - use shared STLport, not included one...
 # - post install
 # - cron scripts (contrib)
+#
 # Conditional build:
 %bcond_without	static	# don't link statically
 #
 Summary:	Verifies file integrity
 Summary(pl.UTF-8):	Program sprawdza poprawność plików
 Name:		tripwire
-Version:	2.4.1.2
+Version:	2.4.2
 Release:	0.1
 License:	GPL v2
 Group:		Applications/System
-Source0:	http://dl.sourceforge.net/tripwire/%{name}-%{version}-src.tar.bz2
-# Source0-md5:	8a1147c278b528ed593023912c4b649a
+Source0:	http://downloads.sourceforge.net/tripwire/%{name}-%{version}-src.tar.bz2
+# Source0-md5:	c174df418df13d5a97dbeaea9d544a25
 Source1:	%{name}.verify
 Source2:	%{name}-tw.cfg
 Patch0:		%{name}-sec.patch
 URL:		http://sourceforge.net/projects/tripwire/
-%{?with_static:BuildRequires:	glibc-static}
 BuildRequires:	bison
 BuildRequires:	flex
+%{?with_static:BuildRequires:	glibc-static}
 Requires:	crondaemon
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -40,7 +40,6 @@ measures immediately.
 %description -l pl.UTF-8
 Tripwire to narzędzie do sprawdzania poprawności plików i katalogów na
 podstawie wygenerowanej bazy danych.
-
 
 %prep
 %setup -q -n %{name}-%{version}-src
