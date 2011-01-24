@@ -19,9 +19,8 @@ Source1:	%{name}.verify
 Source2:	%{name}-tw.cfg
 Patch0:		%{name}-sec.patch
 URL:		http://sourceforge.net/projects/tripwire/
-BuildRequires:	bison
-BuildRequires:	flex
 %{?with_static:BuildRequires:	glibc-static}
+BuildRequires:	libstdc++-devel
 Requires:	crondaemon
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
