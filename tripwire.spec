@@ -1,5 +1,4 @@
 # TODO:
-# - use shared STLport, not included one...
 # - post install
 # - cron scripts (contrib)
 #
@@ -10,14 +9,17 @@ Summary:	Verifies file integrity
 Summary(pl.UTF-8):	Program sprawdza poprawność plików
 Name:		tripwire
 Version:	2.4.2.1
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/tripwire/%{name}-%{version}-src.tar.bz2
 # Source0-md5:	2463cde5c75adbab2ce5fdb64aec94f1
 Source1:	%{name}.verify
 Source2:	%{name}-tw.cfg
+Source3:	README.SuSE
 Patch0:		%{name}-sec.patch
+Patch1:		off_t.patch
+Patch2:		policyconfig.patch
 URL:		http://sourceforge.net/projects/tripwire/
 %{?with_static:BuildRequires:	glibc-static}
 BuildRequires:	libstdc++-devel
@@ -36,12 +38,11 @@ regular basis, any file changes would be spotted when Tripwire is next
 run, giving system administrators information to enact damage control
 measures immediately.
 
-%description -l pl.UTF-8
-Tripwire to narzędzie do sprawdzania poprawności plików i katalogów na
-podstawie wygenerowanej bazy danych.
-
 %prep
 %setup -q
+%patch1 -p1
+%patch2 -p1
+install %{SOURCE3} .
 
 %build
 %configure --sysconfdir=/etc/tripwire
@@ -58,18 +59,18 @@ install man/man5/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
 install man/man8/*.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install policy/twpol-Linux.txt $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/twpol.txt
 install %{SOURCE1} $RPM_BUILD_ROOT%{_cron}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/tw.cfg
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/twcfg.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc MAINTAINERS ChangeLog TRADEMARK policy/policyguide.txt
+%doc MAINTAINERS ChangeLog README.SuSE TRADEMARK policy/policyguide.txt
 %attr(700,root,root) %{_sbindir}/*
 %dir %attr(700,root,root) %{_sysconfdir}/%{name}
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/twpol.txt
-%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/tw.cfg
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/twcfg.txt
 %attr(700,root,root) %{_var}/spool/%{name}
 %attr(700,root,root) %{_var}/lib/%{name}
 %attr(700,root,root) %{_cron}/%{name}.verify
