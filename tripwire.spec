@@ -9,12 +9,12 @@
 Summary:	Verifies file integrity
 Summary(pl.UTF-8):	Program sprawdza poprawność plików
 Name:		tripwire
-Version:	2.4.2
+Version:	2.4.2.1
 Release:	0.1
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/tripwire/%{name}-%{version}-src.tar.bz2
-# Source0-md5:	c174df418df13d5a97dbeaea9d544a25
+# Source0-md5:	2463cde5c75adbab2ce5fdb64aec94f1
 Source1:	%{name}.verify
 Source2:	%{name}-tw.cfg
 Patch0:		%{name}-sec.patch
@@ -41,10 +41,10 @@ Tripwire to narzędzie do sprawdzania poprawności plików i katalogów na
 podstawie wygenerowanej bazy danych.
 
 %prep
-%setup -q -n %{name}-%{version}-src
+%setup -q
 
 %build
-%configure
+%configure --sysconfdir=/etc/tripwire
 %{__make}
 
 %install
