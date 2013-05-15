@@ -20,6 +20,7 @@ Source3:	README.SuSE
 Patch0:		%{name}-sec.patch
 Patch1:		off_t.patch
 Patch2:		policyconfig.patch
+Patch3:		%{name}-gcc47.patch
 URL:		http://sourceforge.net/projects/tripwire/
 %{?with_static:BuildRequires:	glibc-static}
 BuildRequires:	libstdc++-devel
@@ -42,6 +43,7 @@ measures immediately.
 %setup -q
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 install %{SOURCE3} .
 
 %build

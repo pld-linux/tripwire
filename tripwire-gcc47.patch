@@ -1,0 +1,24 @@
+diff -up tripwire-2.4.2.2-src/src/cryptlib/algebra.h.gcc47 tripwire-2.4.2.2-src/src/cryptlib/algebra.h
+--- tripwire-2.4.2.2-src/src/cryptlib/algebra.h.gcc47	2011-11-21 11:06:56.000000000 -0500
++++ tripwire-2.4.2.2-src/src/cryptlib/algebra.h	2012-03-05 15:17:32.733038609 -0500
+@@ -273,7 +273,7 @@ template <class T> T AbstractEuclideanDo
+ 	Element g[3]={b, a};
+ 	unsigned int i0=0, i1=1, i2=2;
+ 
+-	while (!Equal(g[i1], this->Zero()))
++	while (!this->Equal(g[i1], this->Zero()))
+ 	{
+ 		g[i2] = Mod(g[i0], g[i1]);
+ 		unsigned int t = i0; i0 = i1; i1 = i2; i2 = t;
+diff -up tripwire-2.4.2.2-src/src/twadmin/twadmincl.cpp.gcc47 tripwire-2.4.2.2-src/src/twadmin/twadmincl.cpp
+--- tripwire-2.4.2.2-src/src/twadmin/twadmincl.cpp.gcc47	2012-03-05 15:21:21.811528228 -0500
++++ tripwire-2.4.2.2-src/src/twadmin/twadmincl.cpp	2012-03-05 15:21:29.140447912 -0500
+@@ -35,6 +35,8 @@
+ 
+ #include "stdtwadmin.h"
+ 
++#include <unistd.h>
++
+ #include "twadmincl.h"
+ #include "twadminstrings.h"
+ #include "keygeneration.h"
