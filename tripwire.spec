@@ -18,9 +18,7 @@ Source1:	%{name}.verify
 Source2:	%{name}-tw.cfg
 Source3:	README.SuSE
 Patch0:		%{name}-sec.patch
-Patch1:		off_t.patch
 Patch2:		policyconfig.patch
-Patch3:		%{name}-gcc47.patch
 URL:		https://github.com/Tripwire/tripwire-open-source
 %{?with_static:BuildRequires:	glibc-static}
 BuildRequires:	libstdc++-devel
@@ -41,9 +39,7 @@ measures immediately.
 
 %prep
 %setup -q -n %{name}-open-source-%{version}
-%patch1 -p1
 %patch2 -p1
-%patch3 -p1
 install %{SOURCE3} .
 
 %build
