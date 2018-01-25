@@ -8,12 +8,12 @@
 Summary:	Verifies file integrity
 Summary(pl.UTF-8):	Program sprawdza poprawność plików
 Name:		tripwire
-Version:	2.4.2.1
-Release:	0.2
+Version:	2.4.3.6
+Release:	0.1
 License:	GPL v2
 Group:		Applications/System
-Source0:	http://downloads.sourceforge.net/tripwire/%{name}-%{version}-src.tar.bz2
-# Source0-md5:	2463cde5c75adbab2ce5fdb64aec94f1
+Source0:	https://github.com/Tripwire/tripwire-open-source/archive/%{version}/%{name}-open-source-%{version}.tar.gz
+# Source0-md5:	0bd68d1ab2684ab0e78ea3cc05d3a3a8
 Source1:	%{name}.verify
 Source2:	%{name}-tw.cfg
 Source3:	README.SuSE
@@ -21,7 +21,7 @@ Patch0:		%{name}-sec.patch
 Patch1:		off_t.patch
 Patch2:		policyconfig.patch
 Patch3:		%{name}-gcc47.patch
-URL:		http://sourceforge.net/projects/tripwire/
+URL:		https://github.com/Tripwire/tripwire-open-source
 %{?with_static:BuildRequires:	glibc-static}
 BuildRequires:	libstdc++-devel
 Requires:	crondaemon
@@ -40,7 +40,7 @@ run, giving system administrators information to enact damage control
 measures immediately.
 
 %prep
-%setup -q
+%setup -q -n %{name}-open-source-%{version}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
